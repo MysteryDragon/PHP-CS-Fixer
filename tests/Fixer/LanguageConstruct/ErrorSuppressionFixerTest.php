@@ -109,6 +109,11 @@ Trigger_Error/**/("This is a deprecation warning.", E_USER_DEPRECATED/***/); ?>'
                 [ErrorSuppressionFixer::OPTION_MUTE_DEPRECATION_ERROR => true, ErrorSuppressionFixer::OPTION_NOISE_REMAINING_USAGES => true, ErrorSuppressionFixer::OPTION_NOISE_REMAINING_USAGES_EXCLUDE => ['mkdir']],
             ],
             [
+                '<?php @trigger_error("This is a deprecation warning.", E_USER_DEPRECATED); include("index1.php"); @include("index2.php"); include "index3.php"; @include "index4.php"; mkdir("dir"); ?>',
+                '<?php trigger_error("This is a deprecation warning.", E_USER_DEPRECATED); include("index1.php"); @include("index2.php"); include "index3.php"; @include "index4.php"; @mkdir("dir"); ?>',
+                [ErrorSuppressionFixer::OPTION_MUTE_DEPRECATION_ERROR => true, ErrorSuppressionFixer::OPTION_NOISE_REMAINING_USAGES => true, ErrorSuppressionFixer::OPTION_NOISE_REMAINING_USAGES_EXCLUDE => ['include']],
+            ],
+            [
                 '<?php @trigger_error("This is a deprecation warning.", E_USER_DEPRECATED); @trigger_error("This is not a deprecation warning.", E_USER_WARNING); ?>',
                 '<?php trigger_error("This is a deprecation warning.", E_USER_DEPRECATED); @trigger_error("This is not a deprecation warning.", E_USER_WARNING); ?>',
                 [ErrorSuppressionFixer::OPTION_MUTE_DEPRECATION_ERROR => true, ErrorSuppressionFixer::OPTION_NOISE_REMAINING_USAGES => true, ErrorSuppressionFixer::OPTION_NOISE_REMAINING_USAGES_EXCLUDE => ['trigger_error']],
